@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../../../../../SSAFY/vue-test/vue-board"
+		},
+		{
+			"path": "../../../../../../../../SSAFY/vue-test2/bootstrap-vue"
+		}
+	],
+	"settings": {}
+}
