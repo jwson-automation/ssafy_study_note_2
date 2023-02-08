@@ -1,10 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import List from "../views/List.vue";
-import SingleDetail from "../views/SingleDetail.vue";
-import Join from "../views/Join.vue";
-import Main from "../views/Main.vue";
-import System from "../views/System.vue";
+import List from "../components/book/BookList.vue";
+import SingleDetail from "../components/book/BookView.vue";
+import Join from "../components/book/BookCreateModify.vue";
+import Main from "../views/Home.vue";
+import System from "../components/book/System.vue";
+import About from "../views/About.vue";
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,11 @@ const routes = [
     path: "/main",
     name: "main",
     component: Main,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: About,
   },
   {
     path: "/",

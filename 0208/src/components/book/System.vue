@@ -14,7 +14,6 @@ export default {
       users: [],
     };
   },
-
     created() {
       bus.$on("deleteBook", (isbn) => {
         this.deleteBook(isbn);
@@ -47,7 +46,6 @@ export default {
       }
       
     },
-    
   },
   destroyed() {
       bus.$off("deleteBook");

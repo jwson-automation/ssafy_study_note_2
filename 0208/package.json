@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8080",
+    "serve": "vue-cli-service serve --port 8080",
     "build": "vue-cli-service build --dest D:/DEV/workspace/sts/guestbook_rest_starter/src/main/webapp/resources",
     "lint": "vue-cli-service lint"
   },

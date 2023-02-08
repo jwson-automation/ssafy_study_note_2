@@ -2,7 +2,7 @@
   <tr>
     <td>{{ tmp + 1 }}</td>
     <td>{{ user.isbn }}</td>
-    <td><router-link :to="`/update/${user.isbn}`">{{ user.title }}</router-link></td>
+    <td><router-link :to="`/detail/${user.isbn}`">{{ user.title }}</router-link></td>
     <td>{{ user.author }}</td>
     <td>{{ user.price }}</td>    
     

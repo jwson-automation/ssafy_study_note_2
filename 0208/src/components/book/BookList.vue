@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ListDetail from '../components/ListDetail.vue'
+import ListDetail from '../book/ListDetail.vue'
 import axios from '@/util/http-common';
 import bus from "@/util/bus.js";
 
