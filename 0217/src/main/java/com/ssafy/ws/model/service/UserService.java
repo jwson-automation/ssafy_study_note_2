@@ -7,8 +7,8 @@ import com.ssafy.ws.dto.User;
 public interface UserService {
 	
     public List<User> selectAll();
-	public User select();
-	public void insert();
-	public void update();
-	public void delete();
+	public User select(String id);
+	public void insert(User user);
+	public void update(User user);
+	public void delete(String id);
 }

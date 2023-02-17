@@ -2,43 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- (1) 경로 수정 -->
 <mapper namespace="com.ssafy.ws.model.mapper.UserMapper">
-
-
 
 	<select id="selectAll" resultType="Map">
 		SELECT *
 		FROM user
 	</select>
 
-	<select id="select" resultType="String">
+	<select id="select" parameterType="String" resultType="User">
 		SELECT *
 		FROM user
-		WHERE id =
-		'sonjungwoo9@gmail.com';
+		WHERE id = #{id}
 	</select>
 
-
-	<insert id="insert">
-		INSERT INTO user (id, name, pass)
+	<insert id="insert" parameterType="User">
+		INSERT INTO user (id, name,
+		pass)
 		VALUES
-		('sonjungwoo9@gmail.com', 'Son
-		Jungwoo', 'password123');
+		(#{id}, #{name}, #{pass})
 	</insert>
 
-	<update id="update">
+	<update id="update" parameterType="User">
 		UPDATE user
-		SET pass = 'newpassword123'
-		WHERE id =
-		'sonjungwoo9@gmail.com';
+		SET name = #{name},
+		pass = #{pass}
+		WHERE id = #{id}
 	</update>
 
-	<delete id="delete">
-		DELETE FROM user WHERE id = 'sonjungwoo9@gmail.com';
+	<delete id="delete" parameterType="String">
+		DELETE FROM user
+		WHERE id =
+		#{id};
 	</delete>
 
 </mapper>
-
-
 

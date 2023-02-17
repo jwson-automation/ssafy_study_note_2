@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.ssafy.ws.dto.User;
 import com.ssafy.ws.model.service.UserService;
 
-//이거 어떻게 동작시키는지 모르겠어서 그냥 User restController에 넣음
-
 @Controller
 public class UserController {
 	
@@ -25,11 +23,8 @@ public class UserController {
 	@GetMapping("/user/list")
 	public String thymeleaf(Model model) {
 		List<User> list = service.selectAll();
-
 		model.addAttribute("list", list);
-
 		return "allusers";
-
-	}
+	}	
 
 }

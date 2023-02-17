@@ -7,19 +7,12 @@ public class Book {
 	private String price;
 	private String content;
 	private String img;
+	private String id;
+	private String rating;
+	private String comment;
 
 	public Book() {
 
-	}
-
-	public Book(String isbn, String title, String author, String price, String content, String img) {
-		super();
-		this.isbn = isbn;
-		this.title = title;
-		this.author = author;
-		this.price = price;
-		this.content = content;
-		this.img = img;
 	}
 
 	public String getIsbn() {
@@ -70,10 +63,49 @@ public class Book {
 		this.img = img;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", author=" + author + ", price=" + price + ", content="
-				+ content + ", img=" + img + "]";
+				+ content + ", img=" + img + ", id=" + id + ", rating=" + rating + ", comment=" + comment + "]";
 	}
+
+	public Book(String isbn, String title, String author, String price, String content, String img, String id,
+			String rating, String comment) {
+		super();
+		this.isbn = isbn;
+		this.title = title;
+		this.author = author;
+		this.price = price;
+		this.content = content;
+		this.img = img;
+		this.id = id;
+		this.rating = rating;
+		this.comment = comment;
+	}
+
 
 }

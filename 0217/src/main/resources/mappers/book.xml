@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.ws.model.mapper.BookMapper">
+
+
+	<select id="getAllList" resultType="Map">
+		SELECT b.isbn, b.title, b.author, b.price, b.content, b.img, c.id, c.rating,
+		c.comment
+		FROM book b
+		LEFT JOIN comment c ON b.isbn = c.isbn;
+	</select>
+
+	<select id="highestAverage" resultType="Book">
+		SELECT b.isbn, b.title,
+		b.author, b.price, b.content, b.img, MAX(c.rating)
+		AS max_rating
+		FROM
+		book AS b
+		LEFT JOIN comment AS c ON b.isbn = c.isbn
+		GROUP BY b.isbn
+		ORDER BY max_rating DESC
+		LIMIT 1;
+	</select>
+
+</mapper>

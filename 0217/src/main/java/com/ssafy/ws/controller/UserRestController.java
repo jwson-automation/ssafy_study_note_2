@@ -22,11 +22,6 @@ public class UserRestController {
 
 	public ArrayList<User> users = new ArrayList<User>();
 
-	public UserRestController() {
-		users.add(new User("test1", "test", "test", "test"));
-		users.add(new User("test2", "test", "test", "test"));
-		users.add(new User("test3", "test", "test", "test"));
-	}
 	
 	@Autowired
 	private UserService service;
@@ -34,126 +29,52 @@ public class UserRestController {
 	@GetMapping("/list")
 	public String thymeleaf(Model model) {
 		List<User> list = service.selectAll();
-
 		model.addAttribute("list", list);
-
 		return "allusers";
 
 	}
-	
 
 	@GetMapping("/user")
-	public ArrayList<User> UserInfo() {
-		return this.select();
+	public List<User> UserInfo() {
+		return service.selectAll();
 	}
 
 	@GetMapping("/user/{id}")
 	public User UserInfo(@PathVariable String id) throws Exception {
 		this.isNotFound(id);
-		return this.select(id);
+		return service.select(id);
 	}
 
 	@PostMapping("/user")
 	public void UserInsert(@RequestBody User user) throws Exception {
 		this.dupCheck(user);
-		this.insert(user);
+		service.insert(user);
 	}
 
 	@PutMapping("/user")
 	public void UserUpdate(@RequestBody User user) throws Exception {
 		this.isNotFound(user);
-		this.update(user);
+		service.update(user);
 	}
 
 	@DeleteMapping("/user/{id}")
 	public void UserDelete(@PathVariable String id) {
-		this.delete(id);
+		service.delete(id);
 	}
 
-	public ArrayList<User> select() {
-		return this.users;
-	}
-
-	public User select(String id) {
-		
-		User matchedUser = null;
-		
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) {
-				matchedUser = users.get(i);
-			}
-		}
-		
-		return matchedUser;
-	}
-
-	public void insert(User user) {		
-		users.add(user);
-		
-	}
-
-	public void update(User user) {
-		
-		int matchedIndex = 100; //지금 예외처리 안해놔서 숫자 범위 벗어나면 인덱스 에러
+	public void dupCheck(User user) throws Exception {		
 		String id = user.getId();
-		
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) {
-				matchedIndex = i;
-			}
-		}	
-		
-		this.users.set(matchedIndex, user);
-		
-	}
-
-	public void delete(String id) {
-		
-		int matchedIndex = 100; //지금 예외처리 안해놔서 숫자 범위 벗어나면 인덱스 에러
-		
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) {
-				matchedIndex = i;
-			}
-		}	
-		
-		this.users.remove(matchedIndex);
+		if (service.select(id) != null) throw new DupException("A100","이미 등록된 사용자가 있습니다.");
 	}
 	
-	public void dupCheck(User user) throws Exception {
+	public void isNotFound(String id) throws Exception {		
+		if (service.select(id) == null) throw new DupException("A101","등록되지 않은 사용자입니다.");
 		
+	}
+	
+	public void isNotFound(User user) throws Exception {		
 		String id = user.getId();
-		
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) throw new DupException("A100","이미 등록된 사용자가 있습니다.");
-		}	
-		
-	}
-	
-	public void isNotFound(String id) throws Exception {
-	
-		boolean notFound = true;
-	
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) {
-				notFound = false;
-			}
-		}	
-		if (notFound) throw new DupException("A101","등록되지 않은 사용자입니다.");
-		
-	}
-	
-	public void isNotFound(User user) throws Exception {
-		
-		String id = user.getId();
-		boolean notFound = true;
-		
-		for (int i = 0; i < users.size(); i++) {
-			if (id.equals(users.get(i).getId())) {
-				notFound = false;
-			}
-		}
-		if (notFound) throw new DupException("A101","등록되지 않은 사용자입니다.");	
+		if (service.select(id) == null) throw new DupException("A101","등록되지 않은 사용자입니다.");	
 		
 	}
 

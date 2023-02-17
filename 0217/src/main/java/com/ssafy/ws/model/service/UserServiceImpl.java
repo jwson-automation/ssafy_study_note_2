@@ -10,7 +10,7 @@ import com.ssafy.ws.model.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper mapper;
 
@@ -20,27 +20,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User select() {
-		// TODO Auto-generated method stub
-		return null;
+	public User select(String id) {
+		return mapper.select(id);
 	}
 
 	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
+	public void insert(User user) {
+		mapper.insert(user);
 	}
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
+	public void update(User user) {
+		mapper.update(user);
 	}
 
+
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	public void delete(String id) {
+		mapper.delete(id);
 	}
 
 }
