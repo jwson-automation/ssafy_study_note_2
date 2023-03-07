@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.ws.model.repo.BookRepo">
+
+    <insert id="insert" parameterType="book">
+        insert into book (isbn, title, author, price, content, img)
+        values (#{isbn}, #{title}, #{author}, #{price}, #{content}, #{img})
+    </insert>
+    
+    <select id="select" parameterType="String" resultType="book">
+        select isbn, title, author, price, content, img
+        from book
+        where isbn = #{isbn}
+    </select>
+    
+    <select id="search" resultType="book">
+        select isbn, title, author, price, content, img
+        from book
+    </select>
+    
+    <update id="update" parameterType="book">
+        update book
+        set isbn = #{isbn}, title = #{title}, 
+        author = #{author}, price = #{price}, 
+        content = #{content}, img = #{img}
+        where isbn = #{isbn}
+    </update>
+    
+    <delete id="delete" parameterType="String">
+	    delete from book
+	    where isbn = #{isbn}
+    </delete>
+    
+</mapper>
