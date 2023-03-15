@@ -1,8 +1,8 @@
 package com.ssafy.memo
 
-import android.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.widget.ArrayAdapter
 import com.ssafy.memo.databinding.ActivityMainBinding
 
@@ -13,17 +13,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        LIST_MENU.add(MemoItem("메모 앱 만들기1", "test1", "2023-03-15"))
-        LIST_MENU.add(MemoItem("메모 앱 만들기1", "test1", "2023-03-16"))
+        MemoItemMgr.add(MemoItem("메모 앱 만들기1", "test1", "2023-03-15"))
+        MemoItemMgr.add(MemoItem("메모 앱 만들기2", "test1", "2023-03-16"))
 
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = ArrayAdapter<MemoItem>(this, R.layout.simple_list_item_1, LIST_MENU)
-        binding.memoListView.adapter = adapter
-
-        MemoItemMgr.getList()
+        initAdapter()
     }
-}
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_option, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun initAdapter(){
+        val adapter = MemoListAdapter(this, MemoItemMgr.getList(), android.R.layout.simple_list_item_1)
+        binding.memoListView.adapter = adapter
+    }
+
+
+    }
+

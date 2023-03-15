@@ -1,35 +1,30 @@
 package com.ssafy.memo
 
 class MemoItemMgr():IMemoItemMgr {
-    override var memos: ArrayList<MemoItem>
-        get() = TODO("Not yet implemented")
-        set(value) {}
-
-    override fun getList(): ArrayList<MemoItem> {
-        TODO("Not yet implemented")
-    }
+    override var memos = arrayListOf<MemoItem>()
+    override fun getList() = memos
 
     override fun size(): Int {
-        TODO("Not yet implemented")
+        return memos.size
     }
 
     override fun search(index: Int): MemoItem {
-        TODO("Not yet implemented")
+        return memos[index]
     }
 
     override fun add(m: MemoItem) {
-        TODO("Not yet implemented")
+        memos.add(m)
     }
 
     override fun update(index: Int, item: MemoItem) {
-        TODO("Not yet implemented")
+        memos[index] = item
     }
 
     override fun remove(index: Int) {
-        TODO("Not yet implemented")
+        memos.removeAt(index)
     }
 
     override fun clear() {
-        TODO("Not yet implemented")
+        memos.clear()
     }
 }
