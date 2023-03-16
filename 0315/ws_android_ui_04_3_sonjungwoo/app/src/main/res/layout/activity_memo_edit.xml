@@ -73,10 +73,10 @@
             android:layout_height="wrap_content"
             android:text="저장" />
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="삭제" />
+            android:text="수정" />
 
         <Button
             android:id="@+id/cancelButton"
@@ -93,19 +93,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/minute10Alarm"
+        <CheckBox
+            android:id="@+id/second10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="10분 후 알림" />
-
-        <RadioButton
-            android:id="@+id/minute20Alarm"
+            android:text="10초 뒤 알림"
+            android:checked="false"/>
+        <CheckBox
+            android:id="@+id/second30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="20분 후 알림" />
+            android:text="30초 뒤 알림"
+            android:checked="false"/>
     </LinearLayout>
 
 </LinearLayout>

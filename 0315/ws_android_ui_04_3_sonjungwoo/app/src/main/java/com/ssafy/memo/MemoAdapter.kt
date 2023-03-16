@@ -8,7 +8,6 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 
 class MemoAdapter(val context: Context, val memoList:ArrayList<MemoItem>) : BaseAdapter() {
-
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_listview,null)
 

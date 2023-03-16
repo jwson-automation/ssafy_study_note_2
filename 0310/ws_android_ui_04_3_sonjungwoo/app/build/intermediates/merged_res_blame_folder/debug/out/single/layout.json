@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-mergeDebugResources-28:\\layout\\activity_memo_info.xml",
+        "source": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-main-31:\\layout\\activity_memo_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-mergeDebugResources-28:\\layout\\activity_memo_edit.xml",
+        "source": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-main-31:\\layout\\activity_memo_edit.xml"
+    },
+    {
+        "merged": "com.ssafy.memo.app-mergeDebugResources-28:/layout/activity_memo_info.xml",
+        "source": "com.ssafy.memo.app-main-31:/layout/activity_memo_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-mergeDebugResources-28:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\jwson\\.gradle\\daemon\\7.5\\com.ssafy.memo.app-main-31:\\layout\\activity_main.xml"
+    }
+]

@@ -3,8 +3,11 @@ package com.ssafy.memo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ssafy.memo.databinding.ActivityMainBinding
 
@@ -12,17 +15,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MemoAdapter
     private var mgr = MemoItemMgr
-
-    // 업데이트, 등록
-//    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//        if(it.resultCode == RESULT_OK) {
-//            val data = it.data
-//
-//            data?.let {
-//                it.getStringExtra("content")
-//            }
-//        }
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +31,14 @@ class MainActivity : AppCompatActivity() {
         adapter = MemoAdapter(this, mgr.getList())
         binding.memoListView.adapter = adapter
         binding.memoListView.setOnItemClickListener { adapterView, view, i, l ->
-            val memo = adapter.getItem(i).toString()
+            val memo = adapterView.adapter.getItem(i) as MemoItem
             val intent = Intent(this, MemoEditActivity::class.java)
 
             intent.putExtra("idx", i)
-            intent.putExtra("memo",memo)
+            intent.putExtra("title",memo.title.toString())
+            intent.putExtra("content", memo.content.toString())
 
             startActivity(intent)
-//            register.launch(intent)
             onResume()
         }
         registerForContextMenu(binding.memoListView)
@@ -76,7 +68,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_context, menu)
+    }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        mgr.remove(info.position)
+        adapter.notifyDataSetChanged()
+
+        return super.onContextItemSelected(item)
+    }
 
     }
 
