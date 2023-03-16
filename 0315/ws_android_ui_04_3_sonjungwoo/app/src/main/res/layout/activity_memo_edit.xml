@@ -45,22 +45,68 @@
         android:text=""
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/dateInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:minHeight="48dp"
+        android:text=""
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="저장" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제" />
 
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="취소" />
+
     </LinearLayout>
 
 
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/minute10Alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="10분 후 알림" />
+
+        <RadioButton
+            android:id="@+id/minute20Alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="20분 후 알림" />
+    </LinearLayout>
+
 </LinearLayout>
+

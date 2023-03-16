@@ -1,6 +1,8 @@
 package com.ssafy.memo
 
-class MemoItem {
+import java.io.Serializable
+
+class MemoItem : Serializable {
     var title : String
     var content : String
     var date : String
@@ -12,6 +14,6 @@ class MemoItem {
         }
 
     override fun toString(): String {
-        return "MemoItem(title='$title',date='$date')"
+        return title
         }
 }

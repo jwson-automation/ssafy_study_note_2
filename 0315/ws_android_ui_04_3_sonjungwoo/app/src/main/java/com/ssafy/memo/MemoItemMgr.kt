@@ -1,8 +1,11 @@
 package com.ssafy.memo
 
-class MemoItemMgr():IMemoItemMgr {
+object MemoItemMgr:IMemoItemMgr {
     override var memos = arrayListOf<MemoItem>()
-    override fun getList() = memos
+
+    override fun getList(): ArrayList<MemoItem> {
+        return memos
+    }
 
     override fun size(): Int {
         return memos.size
