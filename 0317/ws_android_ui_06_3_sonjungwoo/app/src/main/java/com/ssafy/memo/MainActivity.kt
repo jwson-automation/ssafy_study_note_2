@@ -34,22 +34,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 바인딩
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        // 화면띄우기
         setContentView(binding.root)
 
-        // 디비 생성하기
+        initDB()
+
+        initResultReceiver()
+
+        initAdapter()
+    }
+
+    private fun initDB() {
         dbHelper = MemoDBHelper(this, "new.db", null, 1)
         database = dbHelper.writableDatabase
         Log.d(TAG, "onCreate: $database")
-
-        // Result Receiver on
-        initResultReceiver()
-
-        // Adapter <-> ListView 연결
-        initAdapter()
     }
 
     private fun initAdapter() {
@@ -138,14 +137,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-
-        Log.d(TAG, "onContextItemSelected: ${item.menuInfo}")
-
-        Log.d(TAG, "onContextItemSelected: ${info.position}")
-
-        Log.d(TAG, "onContextItemSelected: ${memos.get(info.position)}")
-
-        Log.d(TAG, "onContextItemSelected: ${memos.get(info.position)._id}")
 
         dbHelper.delete(memos.get(info.position)._id)
         onResume()

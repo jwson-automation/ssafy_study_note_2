@@ -1,9 +1,6 @@
 package com.ssafy.memo
 
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,33 +23,30 @@ class MemoEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //binding
         binding = ActivityMemoEditBinding.inflate(layoutInflater)
-
-        //화면 띄우기
         setContentView(binding.root)
 
         // 어떤 경로로 들어왔는지 검사해서 '저장모드','수정모드'로 분류합니다.
         typeCheck()
 
-        //DB 추가해주기
-        dbHelper = MemoDBHelper(this, "new.db", null, 1)
-        database = dbHelper.writableDatabase
+        initDB()
 
-        // '저장버튼'이 눌렸을 때
         binding.saveButton.setOnClickListener {
             saveButtonMethod()
         }
 
-        // '수정버튼'이 눌렸을 때
         binding.updateButton.setOnClickListener {
             updateButtonMethod()
         }
 
-        // '취소버튼'이 눌렸을 때
         binding.cancelButton.setOnClickListener {
             finish()
         }
+    }
+
+    private fun initDB(){
+        dbHelper = MemoDBHelper(this, "new.db", null, 1)
+        database = dbHelper.writableDatabase
     }
 
     private fun saveButtonMethod(){

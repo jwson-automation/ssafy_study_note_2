@@ -5,8 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import kotlinx.coroutines.selects.select
-import java.util.Date
 
 private const val TAG = "DBHelper_싸피"
 private const val TABLE = "mytable"
@@ -80,9 +78,6 @@ class MemoDBHelper(
 
         db.beginTransaction()
         val result = db.insert(TABLE, null, contentValues)
-        // sql을 이용한 저장
-        // val query = "INSERT INTO mytable('txt') values('sql 문장 이용용');";
-        // db.execSQL(query)
         if (result > 0) {
             db.setTransactionSuccessful()
         }
@@ -97,9 +92,6 @@ class MemoDBHelper(
         contentValues.put("date", date)
         db.beginTransaction()
         val result = db.update(TABLE, contentValues, "_id=?", arrayOf(id.toString()))
-        // sql을 이용한 수정
-        // val query = "update $TABLE set txt=$content where _id=$id";
-        // db.execSQL(query)
         if (result > 0) {
             db.setTransactionSuccessful()
         }
@@ -109,9 +101,6 @@ class MemoDBHelper(
     fun delete(id: Int) {
         db.beginTransaction()
         val result = db.delete(TABLE, "_id=?", arrayOf(id.toString()))
-        // sql을 이용한 삭제
-        //val query = "delete from $TABLE where _id=$id";
-        // db.execSQL(query)
         if (result > 0) {
             db.setTransactionSuccessful()
         }
