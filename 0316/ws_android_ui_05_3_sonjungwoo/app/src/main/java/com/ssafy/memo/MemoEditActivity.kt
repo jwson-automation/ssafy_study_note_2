@@ -68,6 +68,7 @@ class MemoEditActivity : AppCompatActivity() {
                         currentTime.toString()
                     )
                 )
+                intent.putExtra("title", todo.toString())
                 setResult(Activity.RESULT_OK,intent)
                 finish()
             } else {

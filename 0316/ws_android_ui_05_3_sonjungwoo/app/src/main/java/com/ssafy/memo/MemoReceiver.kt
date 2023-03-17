@@ -7,9 +7,11 @@ import android.util.Log
 import android.widget.Toast
 
 class MemoReceiver : BroadcastReceiver()  {
-    private val TAG = this.javaClass.simpleName
+    private val TAG = "jwson"
     override fun onReceive(p0: Context?, p1: Intent?) {
         Log.d(TAG, "Received intent : $p1")
-        Toast.makeText(p0, p1?.getStringExtra("title").toString(),Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "onReceive: ${p1?.getStringExtra("msg")}")
+        Log.d(TAG, "onReceive: ${p1?.toString()}")
+        Toast.makeText(p0, p1!!.getStringExtra("msg").toString(),Toast.LENGTH_SHORT).show()
     }
 }

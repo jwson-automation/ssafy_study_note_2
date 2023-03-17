@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -23,12 +24,12 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var getResultText: ActivityResultLauncher<Intent>
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        val TAG = "jwson"
         super.onCreate(savedInstanceState)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         var alarmIntent = Intent(this,MemoReceiver::class.java)
+        val prefs = getSharedPreferences("alarm", MODE_PRIVATE)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mgr.add(MemoItem("메모 앱 만들기1", "test1", "2023-03-15"))
@@ -39,19 +40,27 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
+                var v = prefs.getInt("KEY", 0)
+                val editor = prefs.edit()
+                editor.putInt("KEY", v.toInt()+1)
+                editor.apply()
+
+                title = it.data?.getStringExtra("title")
+                Log.d(TAG, "onCreate: ${title}")
+                alarmIntent.putExtra("msg", title )
+
                 if (it.data!!.getBooleanExtra("second10", false)) {
                     Toast.makeText(this, "10초 알람", Toast.LENGTH_SHORT).show()
                     val triggerTime = (SystemClock.elapsedRealtime() + 3 * 1000) // 10초
 
-                    var pendingIntent = PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_MUTABLE)
+                    var pendingIntent = PendingIntent.getBroadcast(this, v, alarmIntent, PendingIntent.FLAG_MUTABLE)
                     alarmManager.set(AlarmManager.ELAPSED_REALTIME, triggerTime, pendingIntent)
                 }
                 if (it.data!!.getBooleanExtra("second30", false)) {
                     Toast.makeText(this, "30초 알람", Toast.LENGTH_SHORT).show()
                     val triggerTime = (SystemClock.elapsedRealtime() + 5 * 1000) // 30초
 
-
-                    var pendingIntent = PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_MUTABLE)
+                    var pendingIntent = PendingIntent.getBroadcast(this, v, alarmIntent, PendingIntent.FLAG_MUTABLE)
                     alarmManager.set(AlarmManager.ELAPSED_REALTIME, triggerTime, pendingIntent)
                 }
 
