@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var getResultText: ActivityResultLauncher<Intent>
     lateinit var memos: ArrayList<MemoDto>
 
-    val mgr = MemoItemMgr
     val TAG = "jwson"
 
     //디비 추가
@@ -140,12 +139,16 @@ class MainActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
 
-//        Log.d(TAG, "onContextItemSelected: ${item.menuInfo}")
+        Log.d(TAG, "onContextItemSelected: ${item.menuInfo}")
 
-        memos.get(info.position)
-        dbHelper.delete(info.position)
-        adapter.notifyDataSetChanged()
+        Log.d(TAG, "onContextItemSelected: ${info.position}")
 
+        Log.d(TAG, "onContextItemSelected: ${memos.get(info.position)}")
+
+        Log.d(TAG, "onContextItemSelected: ${memos.get(info.position)._id}")
+
+        dbHelper.delete(memos.get(info.position)._id)
+        onResume()
         return super.onContextItemSelected(item)
     }
 

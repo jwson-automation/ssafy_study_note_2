@@ -19,7 +19,6 @@ class MemoEditActivity : AppCompatActivity() {
     private lateinit var database: SQLiteDatabase
     //
 
-    var mgr = MemoItemMgr
     var isUpdate = false
     var idx = -1
     val currentTime = "2023-03-17"
