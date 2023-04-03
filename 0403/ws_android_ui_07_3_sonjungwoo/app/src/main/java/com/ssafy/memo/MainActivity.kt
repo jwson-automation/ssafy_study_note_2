@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.memo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -54,18 +55,19 @@ class MainActivity : AppCompatActivity() {
     private fun initAdapter() {
         memos = dbHelper.selectAllMemo()
         adapter = MemoAdapter(this, memos)
+        binding.memoListView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.memoListView.adapter = adapter
-        binding.memoListView.setOnItemClickListener { adapterView, view, i, l ->
-            val memo = adapterView.adapter.getItem(i) as MemoDto
-            val intent = Intent(this, MemoEditActivity::class.java)
-
-            intent.putExtra("idx", i)
-            Log.d(TAG, "initAdapter: $i")
-            intent.putExtra("title", memo.title.toString())
-            intent.putExtra("content", memo.content.toString())
-
-            getResultText.launch(intent)
-        }
+//        binding.memoListView.setOnItemClickListener { adapterView, view, i, l ->
+//            val memo = adapterView.adapter.getItem(i) as MemoDto
+//            val intent = Intent(this, MemoEditActivity::class.java)
+//
+//            intent.putExtra("idx", i)
+//            Log.d(TAG, "initAdapter: $i")
+//            intent.putExtra("title", memo.title.toString())
+//            intent.putExtra("content", memo.content.toString())
+//
+//            getResultText.launch(intent)
+//        }
         registerForContextMenu(binding.memoListView)
     }
 
