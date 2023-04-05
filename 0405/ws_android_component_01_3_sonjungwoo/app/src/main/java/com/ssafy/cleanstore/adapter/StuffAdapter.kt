@@ -38,7 +38,12 @@ class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : Recyc
         holder.itemView.setOnClickListener(){
             var intent = Intent(context, StuffEditActivity::class.java)
 
-            intent.apply {  }
+            intent.apply {
+                putExtra("position", position)
+                putExtra("name", stuffs[position].name)
+                putExtra("count", stuffs[position].count)
+            }
+
             context.startActivity(intent)
         }
     }
