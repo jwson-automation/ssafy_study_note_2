@@ -1,9 +1,14 @@
 package com.ssafy.cleanstore.stuff
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.View
+import com.ssafy.cleanstore.BoundService
 import com.ssafy.cleanstore.databinding.ActivityStuffEditBinding
 import com.ssafy.cleanstore.db.TmpStuff
 import com.ssafy.cleanstore.dto.Stuff
@@ -16,6 +21,29 @@ class StuffEditActivity : AppCompatActivity() {
     lateinit var count : String
     var position = -1
     lateinit var mode : String
+    lateinit var mService : BoundService
+    private var isBound = false
+
+    // 서비스 연결해주는 부분
+    val connection = object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+            val binder = p1 as BoundService.MyLocalBinder
+            mService = binder.getService()
+            isBound = true
+            Log.d(TAG, "onServiceConnected: 서비스가 연결되었습니다.")
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            isBound = false
+            Log.d(TAG, "onServiceDisconnected: 서비스가 연결되지 않았습니다.")
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        val intent = Intent(this, BoundService::class.java)
+//        bindService(intent, connection, BIND_AUTO_CREATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +54,8 @@ class StuffEditActivity : AppCompatActivity() {
         setMode()
         initBtn()
     }
+
+
     private fun getIntentData(){
         position = intent?.getIntExtra("position", -1)!!
         name = intent?.getStringExtra("name").toString()
@@ -72,7 +102,8 @@ class StuffEditActivity : AppCompatActivity() {
             var nameInp = binding.nameInput.text
             var countInp = binding.nameInput.text
 
-            TmpStuff.Stuffs.add(Stuff(nameInp.toString(),countInp.toString()))
+            //아이디는 일단 무시
+            TmpStuff.Stuffs.add(Stuff(0,nameInp.toString(),countInp.toString()))
             finish()
         }
         deleteBtn.setOnClickListener(){

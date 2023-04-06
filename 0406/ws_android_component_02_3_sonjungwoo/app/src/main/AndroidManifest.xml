@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ws_android_component_01_3_sonjungwoo"
         tools:targetApi="31">
+        <service
+            android:name=".BoundService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity
             android:name=".stuff.StuffEditActivity"
             android:exported="false" />
