@@ -57,8 +57,8 @@ class BoundService : Service() {
         return stuffDao.selectAll()
     }
 
-    fun update() {
-        stuffDao.update()
+    fun update(id: Int, name: String,count: String) {
+        stuffDao.update(id,name,count)
     }
 
     fun delete(id: Int) {

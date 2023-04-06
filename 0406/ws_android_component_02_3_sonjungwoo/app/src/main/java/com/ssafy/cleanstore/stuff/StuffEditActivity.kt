@@ -14,12 +14,12 @@ import com.ssafy.cleanstore.db.TmpStuff
 import com.ssafy.cleanstore.dto.Stuff
 
 
-private const val TAG = "StuffEditActivity"
+private const val TAG = "StuffEditActivity_싸피"
 class StuffEditActivity : AppCompatActivity() {
     lateinit var binding : ActivityStuffEditBinding
     lateinit var name : String
     lateinit var count : String
-    var position = -1
+    var id = -1
     lateinit var mode : String
     lateinit var mService : BoundService
     private var isBound = false
@@ -41,8 +41,8 @@ class StuffEditActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-//        val intent = Intent(this, BoundService::class.java)
-//        bindService(intent, connection, BIND_AUTO_CREATE)
+        val intent = Intent(this, BoundService::class.java)
+        bindService(intent, connection, BIND_AUTO_CREATE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,19 +57,21 @@ class StuffEditActivity : AppCompatActivity() {
 
 
     private fun getIntentData(){
-        position = intent?.getIntExtra("position", -1)!!
+        id = intent?.getIntExtra("id", -1)!!
         name = intent?.getStringExtra("name").toString()
         count = intent?.getStringExtra("count").toString()
 
-        Log.d(TAG, "dataCheck: ${position}")
+        Log.d(TAG, "dataCheck: ${id}")
         Log.d(TAG, "dataCheck: ${name}")
         Log.d(TAG, "dataCheck: ${count}")
     }
     private fun setMode(){
-        if (position == -1){
+        if (id == -1){
             mode = "CREATE"
+            Log.d(TAG, "setMode: CREATE모드")
         }else{
             mode = "UPDATE"
+            Log.d(TAG, "setMode: UPDATE모드")
         }
     }
 
@@ -77,6 +79,7 @@ class StuffEditActivity : AppCompatActivity() {
         var saveBtn = binding.saveBtn
         var deleteBtn = binding.deleteBtn
         var cancelBtn = binding.cancelBtn
+        var updateBtn = binding.updateBtn
         var nameInp = binding.nameInput
         var countInp = binding.countInput
 
@@ -88,26 +91,34 @@ class StuffEditActivity : AppCompatActivity() {
 
         if (mode == "UPDATE"){
             saveBtn.visibility = View.GONE
-            nameInp.isEnabled = false
-            countInp.isEnabled = false
+//            nameInp.isEnabled = false
+//            countInp.isEnabled = false
+            updateBtn.visibility = View.VISIBLE
             nameInp.hint = name
             countInp.hint = count
 
         }else{
             saveBtn.visibility = View.VISIBLE
+            updateBtn.visibility = View.GONE
         }
 
 
         saveBtn.setOnClickListener(){
             var nameInp = binding.nameInput.text
-            var countInp = binding.nameInput.text
+            var countInp = binding.countInput.text
 
-            //아이디는 일단 무시
-            TmpStuff.Stuffs.add(Stuff(0,nameInp.toString(),countInp.toString()))
+            mService.insert(nameInp.toString(),countInp.toString())
+            finish()
+        }
+        updateBtn.setOnClickListener(){
+            var nameInp = binding.nameInput.text
+            var countInp = binding.countInput.text
+
+            mService.update(id,nameInp.toString(),countInp.toString())
             finish()
         }
         deleteBtn.setOnClickListener(){
-            TmpStuff.Stuffs.removeAt(position)
+            mService.delete(id)
             finish()
         }
         cancelBtn.setOnClickListener(){

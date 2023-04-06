@@ -1,6 +1,7 @@
 package com.ssafy.cleanstore.stuff
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
@@ -46,15 +47,15 @@ class StuffActivity : AppCompatActivity() {
         //서비스 연결
         val intent = Intent(this, BoundService::class.java)
         bindService(intent, connection, BIND_AUTO_CREATE)
-
-//        initAdapter()
         initButton()
     }
 
     override fun onResume() {
         super.onResume()
-        // 이때마다 컨넥션을 새로 해줘야함
-    } // 이걸 대체할 수 잇는 친구가 있을거임
+        // 다시 돌아오면 다시 연결해줍니다. ( 이때 리스트를 불러옴 )
+        unbindService(connection)
+        bindService(Intent(this, BoundService::class.java), connection, Context.BIND_AUTO_CREATE)
+    }
 
     private fun initAdapter(){
         stuffs = mService.selectAll()

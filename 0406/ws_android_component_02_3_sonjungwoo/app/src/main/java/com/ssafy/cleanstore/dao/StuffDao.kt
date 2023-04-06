@@ -11,7 +11,6 @@ private const val TAG = "StuffDao_싸피"
 class StuffDao(val mCtx: Context) {
     lateinit var helper: stuffDBHelper
     lateinit var sqlDB: SQLiteDatabase
-//    private var mCtx: Context? = null
     private val DB_NAME = "clean_store"
     private val TABLE_NAME = "Stuff"
     private val STUFF_ID = "_id"
@@ -56,8 +55,8 @@ class StuffDao(val mCtx: Context) {
     }
 
     // 물품정보 변경
-    fun update() {
-
+    fun update(id: Int,name: String, count: String) {
+        helper.update(id,name,count)
     }
 
     // 물품 삭제 method

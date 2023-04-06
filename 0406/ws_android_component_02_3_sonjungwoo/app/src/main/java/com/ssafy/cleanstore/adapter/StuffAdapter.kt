@@ -12,14 +12,6 @@ import com.ssafy.cleanstore.stuff.StuffEditActivity
 
 private const val TAG = "StuffAdapter_싸피"
 class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : RecyclerView.Adapter<StuffAdapter.StuffViewHolder>(){
-    
-//    lateinit var itemClickListener : ItemClickListener
-    
-//    interface ItemClickListener{
-//        fun onClick(position: Int){
-//            Log.d(TAG, "onClick: $position")
-//        }
-//    }
 
     inner class StuffViewHolder(binding: StuffListBinding) : RecyclerView.ViewHolder(binding.root){
         var name = binding.name
@@ -39,7 +31,7 @@ class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : Recyc
             var intent = Intent(context, StuffEditActivity::class.java)
 
             intent.apply {
-                putExtra("position", position)
+                putExtra("id", stuffs[position]._id)
                 putExtra("name", stuffs[position].name)
                 putExtra("count", stuffs[position].count)
             }
