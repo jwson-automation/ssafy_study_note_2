@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.StoreFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="싸피벅스"
+                android:textSize="40dp"/>
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="010-1234-5678"
+                android:textSize="32dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/coordX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="36.123012312" />
+        <TextView
+            android:id="@+id/coordY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="128.232354254224" />
+
+        <Button
+            android:id="@+id/Contactbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="연락처 저장"
+            tools:layout_editor_absoluteX="158dp"
+            tools:layout_editor_absoluteY="403dp" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
