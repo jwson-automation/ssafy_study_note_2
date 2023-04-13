@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -36,10 +37,42 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager2.adapter = ViewPagerAdapter(this)
         binding.viewPager2.setPageTransformer(ZoomOutPageTransformer())
-        TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
-            tab.text = tabTitle[position]
-        }.attach()
 
+        binding.viewPager2.registerOnPageChangeCallback(pageChangeCallBack())
+
+        binding.bottomNavBar.setOnItemSelectedListener {
+            navigationSelected(it)
+        }
+
+    }
+
+    private inner class pageChangeCallBack : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            binding.bottomNavBar.selectedItemId = when (position) {
+                0 -> R.id.mainFragment
+                1 -> R.id.storeFragment
+                else -> error("no such position : ${position}")
+            }
+
+            binding.bottomNavBar.menu.getItem(position).isChecked = true
+        }
+
+    }
+
+    private fun navigationSelected(item: MenuItem): Boolean {
+        val checked = item.setChecked(true)
+        when (checked.itemId) {
+            R.id.detailInfoMenu -> {
+                binding.viewPager2.currentItem = 0
+                return true
+            }
+            R.id.storeInfoMenu -> {
+                binding.viewPager2.currentItem = 1
+                return true
+            }
+        }
+        return false
     }
 
     inner class ViewPagerAdapter(activity: MainActivity) : FragmentStateAdapter(activity) {
@@ -56,6 +89,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        if(binding.viewPager2.currentItem == 0){
+//            super.onBackPressed()
+//        }else{
+//            binding.viewPager2.currentItem == 0
+//        }
+//    }
 
 
     class ZoomOutPageTransformer : ViewPager2.PageTransformer {
