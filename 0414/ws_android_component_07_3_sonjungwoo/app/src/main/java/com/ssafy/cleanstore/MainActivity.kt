@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -37,14 +38,18 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager2.adapter = ViewPagerAdapter(this)
         binding.viewPager2.setPageTransformer(ZoomOutPageTransformer())
-
         binding.viewPager2.registerOnPageChangeCallback(pageChangeCallBack())
+
+        // 스와이프 차단
+        binding.viewPager2.isUserInputEnabled = false
+
 
         binding.bottomNavBar.setOnItemSelectedListener {
             navigationSelected(it)
         }
 
     }
+
 
     private inner class pageChangeCallBack : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -88,16 +93,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        if(binding.viewPager2.currentItem == 0){
-//            super.onBackPressed()
-//        }else{
-//            binding.viewPager2.currentItem == 0
-//        }
-//    }
-
 
     class ZoomOutPageTransformer : ViewPager2.PageTransformer {
         private val MIN_SCALE = 0.85f
