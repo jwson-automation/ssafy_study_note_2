@@ -81,7 +81,8 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         mMap?.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(p0: LatLng) {
                 p0.let {
-                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(it, 15f)
+                    val zoomLevel = mMap?.cameraPosition?.zoom
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(it, zoomLevel!!)
                     mMap?.animateCamera(cameraUpdate)
 
                     // 기존 마커 삭제 및 새로운 마커 추가
