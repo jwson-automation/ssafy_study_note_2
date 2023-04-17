@@ -57,6 +57,22 @@
             android:text=""
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.MaterialComponents.MaterialCalendar"
+            />
+
+        <TextView
+            android:id="@+id/regDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:text="날짜"/>
+
 
     </LinearLayout>
 

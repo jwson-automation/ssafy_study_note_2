@@ -15,26 +15,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/stuffItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="물품 : "></TextView>
+            android:text="toString"></TextView>
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stuff Name"></TextView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" -> 수량 : "></TextView>
 
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stuff Count"></TextView>
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

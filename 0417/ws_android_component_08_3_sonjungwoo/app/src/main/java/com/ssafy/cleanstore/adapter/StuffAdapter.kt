@@ -14,8 +14,7 @@ private const val TAG = "StuffAdapter_싸피"
 class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : RecyclerView.Adapter<StuffAdapter.StuffViewHolder>(){
 
     inner class StuffViewHolder(binding: StuffListBinding) : RecyclerView.ViewHolder(binding.root){
-        var name = binding.name
-        var count = binding.count
+        var stuffItem = binding.stuffItem
         
     }
 
@@ -25,8 +24,7 @@ class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : Recyc
     }
 
     override fun onBindViewHolder(holder: StuffViewHolder, position: Int) {
-        holder.name.text = stuffs[position].name
-        holder.count.text = stuffs[position].count
+        holder.stuffItem.text = stuffs[position].toString()
         holder.itemView.setOnClickListener(){
             var intent = Intent(context, StuffEditActivity::class.java)
 
@@ -34,6 +32,7 @@ class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : Recyc
                 putExtra("id", stuffs[position]._id)
                 putExtra("name", stuffs[position].name)
                 putExtra("count", stuffs[position].count)
+                putExtra("regDate", stuffs[position].regDate)
             }
 
             context.startActivity(intent)

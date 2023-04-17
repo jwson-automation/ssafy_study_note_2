@@ -12,6 +12,8 @@ import com.ssafy.cleanstore.BoundService
 import com.ssafy.cleanstore.databinding.ActivityStuffEditBinding
 import com.ssafy.cleanstore.db.TmpStuff
 import com.ssafy.cleanstore.dto.Stuff
+import java.text.DateFormat
+import java.util.*
 
 
 private const val TAG = "StuffEditActivity_싸피"
@@ -19,6 +21,7 @@ class StuffEditActivity : AppCompatActivity() {
     lateinit var binding : ActivityStuffEditBinding
     lateinit var name : String
     lateinit var count : String
+    lateinit var regDate : String
     var id = -1
     lateinit var mode : String
     lateinit var mService : BoundService
@@ -52,7 +55,24 @@ class StuffEditActivity : AppCompatActivity() {
 
         getIntentData()
         setMode()
+        initCalender()
         initBtn()
+    }
+
+    private fun initCalender(){
+        val calendar = Calendar.getInstance()
+
+        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            // 캘린더 인스턴스에 CalendarView 에서 선택한 날짜 세팅
+            calendar.set(year, month, dayOfMonth)
+
+            // 날짜 표기법 Format
+            val dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT)
+            val formattedDate = dateFormatter.format(calendar.time)
+
+            // TextView 에 날짜 세팅하기
+            binding.regDateInput.text = formattedDate
+        }
     }
 
 
@@ -60,10 +80,12 @@ class StuffEditActivity : AppCompatActivity() {
         id = intent?.getIntExtra("id", -1)!!
         name = intent?.getStringExtra("name").toString()
         count = intent?.getStringExtra("count").toString()
+        regDate = intent?.getStringExtra("regDate").toString()
 
         Log.d(TAG, "dataCheck: ${id}")
         Log.d(TAG, "dataCheck: ${name}")
         Log.d(TAG, "dataCheck: ${count}")
+        Log.d(TAG, "dataCheck: ${regDate}")
     }
     private fun setMode(){
         if (id == -1){
@@ -82,6 +104,7 @@ class StuffEditActivity : AppCompatActivity() {
         var updateBtn = binding.updateBtn
         var nameInp = binding.nameInput
         var countInp = binding.countInput
+        var regDateInp = binding.regDateInput
 
         if (mode == "CREATE"){
             deleteBtn.visibility = View.GONE
@@ -91,11 +114,10 @@ class StuffEditActivity : AppCompatActivity() {
 
         if (mode == "UPDATE"){
             saveBtn.visibility = View.GONE
-//            nameInp.isEnabled = false
-//            countInp.isEnabled = false
             updateBtn.visibility = View.VISIBLE
             nameInp.hint = name
             countInp.hint = count
+            regDateInp.text = regDate
 
         }else{
             saveBtn.visibility = View.VISIBLE
@@ -106,15 +128,17 @@ class StuffEditActivity : AppCompatActivity() {
         saveBtn.setOnClickListener(){
             var nameInp = binding.nameInput.text
             var countInp = binding.countInput.text
+            var regInp = binding.regDateInput.text
 
-            mService.insert(nameInp.toString(),countInp.toString())
+            mService.insert(nameInp.toString(),countInp.toString(), regInp.toString())
             finish()
         }
         updateBtn.setOnClickListener(){
             var nameInp = binding.nameInput.text
             var countInp = binding.countInput.text
+            var regInp = binding.regDateInput.text
 
-            mService.update(id,nameInp.toString(),countInp.toString())
+            mService.update(id,nameInp.toString(),countInp.toString(), regInp.toString())
             finish()
         }
         deleteBtn.setOnClickListener(){

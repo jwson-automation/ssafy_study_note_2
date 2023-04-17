@@ -45,8 +45,8 @@ class BoundService : Service() {
         stuffDao.close()
     }
 
-    fun insert(name: String, count: String) {
-        stuffDao.insert(name, count)
+    fun insert(name: String, count: String, regDate:String) {
+        stuffDao.insert(name, count, regDate)
     }
 
     fun select(id: Int) {
@@ -57,8 +57,8 @@ class BoundService : Service() {
         return stuffDao.selectAll()
     }
 
-    fun update(id: Int, name: String,count: String) {
-        stuffDao.update(id,name,count)
+    fun update(id: Int, name: String,count: String, regDate: String) {
+        stuffDao.update(id,name,count, regDate)
     }
 
     fun delete(id: Int) {

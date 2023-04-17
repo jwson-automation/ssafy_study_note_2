@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.gun0912.tedpermission.PermissionListener
@@ -77,6 +78,13 @@ class MainFragment : Fragment(), OnMapReadyCallback {
 
         //퍼미션 요청 대화상자 (권한이 없을때) & 실행 시 초기 위치를 서울 중심부로 이동
         setDefaultLocation()
+//
+//        val success = mMap?.setMapStyle(
+//            MapStyleOptions.loadRawResourceStyle(
+//                requireContext(),
+//                R.raw.map_style_dark
+//            )
+//        )
 
         mMap?.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(p0: LatLng) {

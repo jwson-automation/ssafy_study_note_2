@@ -8,6 +8,7 @@ import android.util.Log
 import com.ssafy.cleanstore.dto.Stuff
 
 private const val TAG = "StuffDao_싸피"
+
 class StuffDao(val mCtx: Context) {
     lateinit var helper: stuffDBHelper
     lateinit var sqlDB: SQLiteDatabase
@@ -16,6 +17,7 @@ class StuffDao(val mCtx: Context) {
     private val STUFF_ID = "_id"
     private val STUFF_NAME = "name"
     private val STUFF_CNT = "count"
+    private val STUFF_REGDATE = "regDate"
 
     // 오픈에서 문제가 발생했는데 그 이유가 context를 제대로 전달해주지 않아서였음
 
@@ -40,8 +42,8 @@ class StuffDao(val mCtx: Context) {
     // 물품 CRUD 구현
 
     // 물품 등록
-    fun insert(name: String, count: String) {
-        helper.insert(name, count)
+    fun insert(name: String, count: String, regDate: String) {
+        helper.insert(name, count, regDate)
     }
 
     // 특정 물품 조회 method
@@ -55,8 +57,8 @@ class StuffDao(val mCtx: Context) {
     }
 
     // 물품정보 변경
-    fun update(id: Int,name: String, count: String) {
-        helper.update(id,name,count)
+    fun update(id: Int, name: String, count: String, regDate: String) {
+        helper.update(id, name, count, regDate)
     }
 
     // 물품 삭제 method
@@ -75,7 +77,7 @@ class StuffDao(val mCtx: Context) {
         // 테이블 생성
         override fun onCreate(db: SQLiteDatabase?) {
             val query: String =
-                "CREATE TABLE if not exists $TABLE_NAME ( $STUFF_ID integer primary key autoincrement, $STUFF_NAME text, $STUFF_CNT text);"
+                "CREATE TABLE if not exists $TABLE_NAME ( $STUFF_ID integer primary key autoincrement, $STUFF_NAME text, $STUFF_CNT text, $STUFF_REGDATE text);"
             db?.execSQL(query)
         }
 
@@ -94,7 +96,7 @@ class StuffDao(val mCtx: Context) {
             var result = ArrayList<Stuff>()
             db.rawQuery("select * from $TABLE_NAME", null).use {
                 while (it.moveToNext()) {
-                    result.add(Stuff(it.getInt(0), it.getString(1), it.getString(2)))
+                    result.add(Stuff(it.getInt(0), it.getString(1), it.getString(2), it.getString(3)))
                 }
             }
             return result
@@ -104,38 +106,41 @@ class StuffDao(val mCtx: Context) {
             val columns = arrayOf("_id", "txt")
             val cursor =
                 db.query(TABLE_NAME, columns, "_id=?", arrayOf(id.toString()), null, null, null)
-            var result = Stuff(0, "", "")
+            var result = Stuff(0, "", "", "")
             if (cursor.moveToNext()) {
                 result._id = cursor.getInt(0)
                 result.name = cursor.getString(1)
                 result.count = cursor.getString(2)
+                result.regDate = cursor.getString(3)
             }
             return result
         }
 
-        fun insert(name: String, count: String) {
+        fun insert(name: String, count: String, regDate: String) {
             // ContentValues를 이용한 저장
             val contentValues = ContentValues()
 
             //id는 자동생성
             contentValues.put("name", name)
             contentValues.put("count", count)
+            contentValues.put("regDate", regDate)
             db.beginTransaction()
             Log.d(TAG, "insert: 저장")
             val result = db.insert(TABLE_NAME, null, contentValues)
             if (result > 0) {
                 Log.d(TAG, "insert: 성공")
                 db.setTransactionSuccessful()
-                
+
             }
             db.endTransaction()
         }
 
-        fun update(id: Int, name: String, count: String) {
+        fun update(id: Int, name: String, count: String, regDate: String) {
             // ContentValues를 이용한 수정
             val contentValues = ContentValues()
             contentValues.put("name", name)
             contentValues.put("count", count)
+            contentValues.put("regDate", regDate)
             db.beginTransaction()
             val result = db.update(TABLE_NAME, contentValues, "_id=?", arrayOf(id.toString()))
             if (result > 0) {
