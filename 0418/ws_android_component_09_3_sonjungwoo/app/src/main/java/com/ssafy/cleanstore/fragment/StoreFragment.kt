@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,20 +51,23 @@ class StoreFragment : Fragment() {
         _activity = requireActivity()
 
         title.setOnClickListener() {
+//            val intent = Intent(activity, StuffActivity::class.java)
+//                startActivity(intent)
+
 
             val loadingDialog = LoadingDialog(_activity)
             loadingDialog.show()
 
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
+                // 다이얼로그 종료
+                loadingDialog.dismiss()
 
                 // StuffActivity로 이동
                 val intent = Intent(activity, StuffActivity::class.java)
                 startActivity(intent)
 
-                // 다이얼로그 종료
-                loadingDialog.dismiss()
 
-            }, 10000)
+            }, 3000)
         }
 
         initSaveContactBtn()

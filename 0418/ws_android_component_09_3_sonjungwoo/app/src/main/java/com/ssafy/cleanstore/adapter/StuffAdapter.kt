@@ -2,6 +2,7 @@ package com.ssafy.cleanstore.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
@@ -29,6 +30,7 @@ class StuffAdapter (val context: Context, val stuffs : ArrayList<Stuff>) : Recyc
             var intent = Intent(context, StuffEditActivity::class.java)
 
             intent.apply {
+                Log.d(TAG, "onBindViewHolder: 확인확인${stuffs[position]._id}")
                 putExtra("id", stuffs[position]._id)
                 putExtra("name", stuffs[position].name)
                 putExtra("count", stuffs[position].count)

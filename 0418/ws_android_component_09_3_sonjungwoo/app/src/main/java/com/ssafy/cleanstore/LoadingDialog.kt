@@ -8,10 +8,12 @@ import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import com.ssafy.cleanstore.databinding.DialogLoadingBinding
 import com.ssafy.cleanstore.stuff.StuffActivity
 
+private const val TAG = "LoadingDialog_싸피"
 class LoadingDialog(context: Context) : Dialog(context){
     lateinit var binding: DialogLoadingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,16 +23,12 @@ class LoadingDialog(context: Context) : Dialog(context){
         setContentView(binding.root)
 
         window!!.setBackgroundDrawable(ColorDrawable())
-
-        val handler = Handler()
-
-        handler.postDelayed({
-            val activity = context
-
-            var intent = Intent(activity, StuffActivity::class.java)
-            startActivity(activity, intent, Bundle())
-        }, 10000)
-
     }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: 멈췄습니다.")
+    }
+    
 
 }
