@@ -44,6 +44,10 @@ dependencies {
     //로티
     implementation 'com.airbnb.android:lottie:3.4.0'
 
+    //드로월
+    implementation 'com.mxn.soul:flowingdrawer-core:2.1.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+
     //기본
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
