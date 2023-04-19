@@ -1,29 +1,20 @@
 package com.ssafy.cleanstore
 
-import android.Manifest
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Intent
-import android.content.pm.PackageManager
+
+import com.bumptech.glide.Glide
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.cleanstore.databinding.ActivityMainBinding
+import com.ssafy.cleanstore.db.TmpBox
 import com.ssafy.cleanstore.fragment.MainFragment
 import com.ssafy.cleanstore.fragment.StoreFragment
-import com.ssafy.cleanstore.stuff.StuffActivity
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +34,17 @@ class MainActivity : AppCompatActivity() {
         // 스와이프 차단
         binding.viewPager2.isUserInputEnabled = false
 
+        //tool bar 추가
+        setSupportActionBar(binding.toolbar) // Custom Toolbar를 액티비티의 ActionBar로 설정
+
+        Glide.with(this)
+            .load(TmpBox.profileImg)
+            .override( 120) // 이미지 크기 조정
+            .into(binding.toolbarImage)
+
+
+        binding.toolbarTitle.text = TmpBox.nickname // TextView에 텍스트 추가
+        binding.toolbar.setTitle(TmpBox.nickname)
 
         binding.bottomNavBar.setOnItemSelectedListener {
             navigationSelected(it)

@@ -8,16 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
-import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mxn.soul.flowingdrawer_core.ElasticDrawer
-import com.mxn.soul.flowingdrawer_core.FlowingDrawer
 import com.ssafy.cleanstore.BoundService
-import com.ssafy.cleanstore.R
 import com.ssafy.cleanstore.adapter.StuffAdapter
 import com.ssafy.cleanstore.databinding.ActivityStuffBinding
-import com.ssafy.cleanstore.db.TmpStuff
 import com.ssafy.cleanstore.dto.Stuff
 
 private const val TAG = "StuffActivity_싸피"

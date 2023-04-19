@@ -6,18 +6,14 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
 import com.ssafy.cleanstore.BoundService
 import com.ssafy.cleanstore.databinding.ActivityStuffEditBinding
-import com.ssafy.cleanstore.db.TmpStuff
-import com.ssafy.cleanstore.dto.Stuff
 import java.text.DateFormat
 import java.util.*
-import kotlin.math.log
 
 
 private const val TAG = "StuffEditActivity_싸피"
