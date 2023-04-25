@@ -1,28 +1,29 @@
-package com.ssafy.ws_android_network_01_2
+package com.ssaflng.ws_android_network_01_2.dao
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.ssafy.ws_android_network_01_2.dto.StoreDTO
 
-private const val TAG = "StoreDTO_싸피"
+private const val TAG = "StoreDAO"
 
-class StoreDAO(val mCtx: Context) {
+class StoreDAO(val mCtlat: Context) {
     lateinit var helper: StoreDBHelper
     lateinit var sqlDB: SQLiteDatabase
     private val DB_NAME = "clean_store"
     private val TABLE_NAME = "StoreDAO"
     private val StoreDAO_ID = "_id"
     private val StoreDAO_NAME = "name"
-    private val StoreDAO_PHONE = "phone"
-    private val StoreDAO_X = "x"
-    private val StoreDAO_Y = "y"
+    private val StoreDAO_tel = "tel"
+    private val StoreDAO_lat = "lat"
+    private val StoreDAO_lng = "lng"
 
-    // 오픈에서 문제가 발생했는데 그 이유가 context를 제대로 전달해주지 않아서였음
+    // 오픈에서 문제가 발생했는데 그 이유가 Context를 제대로 전달해주지 않아서였음
 
     fun open() {
-        helper = StoreDBHelper(mCtx!!)
+        helper = StoreDBHelper(mCtlat!!)
         sqlDB = helper.writableDatabase
     }
 
@@ -42,12 +43,12 @@ class StoreDAO(val mCtx: Context) {
     // 물품 CRUD 구현
 
     // 물품 등록
-    fun insert(name: String, phone: String, x: Number, y: Number) {
-        helper.insert(name, phone, x, y)
+    fun insert(name: String, tel: String, lat: Number, lng: Number) {
+        helper.insert(name, tel, lat, lng)
     }
 
     // 특정 물품 조회 method
-    fun select(id: Int) : StoreDTO? {
+    fun select(id: Int): StoreDTO? {
         return helper.select(id)
     }
 
@@ -57,8 +58,8 @@ class StoreDAO(val mCtx: Context) {
     }
 
     // 물품정보 변경
-    fun update(id: Number, name: String, count: String, phone: String, x: Number, y: Number) {
-        helper.update(id, name, count, phone, x, y)
+    fun update(id: Number, name: String, count: String, tel: String, lat: Number, lng: Number) {
+        helper.update(id, name, count, tel, lat, lng)
     }
 
     // 물품 삭제 method
@@ -66,7 +67,7 @@ class StoreDAO(val mCtx: Context) {
         helper.delete(id)
     }
 
-    inner class StoreDBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
+    inner class StoreDBHelper(Context: Context) : SQLiteOpenHelper(Context, DB_NAME, null, 1) {
         private lateinit var db: SQLiteDatabase
 
         override fun onOpen(db: SQLiteDatabase?) {
@@ -76,9 +77,9 @@ class StoreDAO(val mCtx: Context) {
 
         // 테이블 생성
         override fun onCreate(db: SQLiteDatabase?) {
-            val query: String =
-                "CREATE TABLE if not exists $TABLE_NAME ( $StoreDAO_ID integer primary key autoincrement, $StoreDAO_NAME text, $StoreDAO_PHONE text, $StoreDAO_X number, $StoreDAO_Y number);"
-            db?.execSQL(query)
+            val querlng: String =
+                "CREATE TABLE if not exists $TABLE_NAME ( $StoreDAO_ID integer primary key autoincrement, $StoreDAO_NAME name, $StoreDAO_tel tel, $StoreDAO_lat lat, $StoreDAO_lng lng);"
+            db?.execSQL(querlng)
         }
 
         override fun onUpgrade(
@@ -99,10 +100,10 @@ class StoreDAO(val mCtx: Context) {
                     result.add(
                         StoreDTO(
                             it.getInt(0),
-                            it.getString(1),
-                            it.getString(2),
-                            it.getInt(3),
-                            it.getInt(4)
+                            it.getDouble(1),
+                            it.getDouble(2),
+                            it.getString(3),
+                            it.getString(4)
                         )
                     )
                 }
@@ -111,31 +112,31 @@ class StoreDAO(val mCtx: Context) {
         }
 
         fun select(id: Int): StoreDTO {
-            val columns = arrayOf("_id", "name","phone","x","y")
+            val columns = arrayOf("_id", "name", "tel", "lat", "lng")
             val cursor =
                 db.query(TABLE_NAME, columns, "_id=?", arrayOf(id.toString()), null, null, null)
-            var result = StoreDTO(0, "", "", 0, 0)
+            var result = StoreDTO(0, 0.123, 0.123, "", "")
             if (cursor.moveToNext()) {
-                result._id = cursor.getInt(0)
-                result.name = cursor.getString(1)
-                result.phone = cursor.getString(2)
-                result.x = cursor.getDouble(3)
-                result.y = cursor.getDouble(4)
+                result.id = cursor.getInt(0)
+                result.lat = cursor.getDouble(1)
+                result.lng = cursor.getDouble(2)
+                result.name = cursor.getString(3)
+                result.tel = cursor.getString(4)
             }
 
             Log.d(TAG, "select: $result")
             return result
         }
 
-        fun insert(name: String, phone: String, x: Number, y: Number) {
+        fun insert(name: String, tel: String, lat: Number, lng: Number) {
             // ContentValues를 이용한 저장
             val contentValues = ContentValues()
 
             //id는 자동생성
             contentValues.put("name", name)
-            contentValues.put("phone", phone)
-            contentValues.put("x", x.toDouble())
-            contentValues.put("y", y.toDouble())
+            contentValues.put("tel", tel)
+            contentValues.put("lat", lat.toDouble())
+            contentValues.put("lng", lng.toDouble())
 
             db.beginTransaction()
             Log.d(TAG, "insert: 저장")
@@ -148,14 +149,14 @@ class StoreDAO(val mCtx: Context) {
             db.endTransaction()
         }
 
-        fun update(id: Number, name: String, count: String, phone: String, x: Number, y: Number) {
+        fun update(id: Number, name: String, count: String, tel: String, lat: Number, lng: Number) {
             // ContentValues를 이용한 수정
             val contentValues = ContentValues()
             contentValues.put("name", name)
             contentValues.put("count", count)
-            contentValues.put("phone", phone)
-            contentValues.put("x", x.toDouble())
-            contentValues.put("y", y.toDouble())
+            contentValues.put("tel", tel)
+            contentValues.put("lat", lat.toDouble())
+            contentValues.put("lng", lng.toDouble())
 
             db.beginTransaction()
             val result = db.update(TABLE_NAME, contentValues, "_id=?", arrayOf(id.toString()))

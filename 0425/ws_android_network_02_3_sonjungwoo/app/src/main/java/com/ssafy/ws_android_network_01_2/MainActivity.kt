@@ -1,18 +1,27 @@
 package com.ssafy.ws_android_network_01_2
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import com.ssaflng.ws_android_network_01_2.dao.StoreDAO
+import com.ssafy.ws_android_network_01_2.dao.DB
 import com.ssafy.ws_android_network_01_2.databinding.ActivityMainBinding
+import com.ssafy.ws_android_network_01_2.dto.StoreDTO
+import com.ssafy.ws_android_network_01_2.service.StoreService
+import com.ssafy.ws_android_network_01_2.storeReview.StoreReviewActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import retrofit2.create
 
 private const val TAG = "MainActivity_싸피"
+
 class MainActivity : AppCompatActivity() {
-    lateinit var binding : ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     val storeDao = StoreDAO(this)
     private val STORE_ID = 1
 
@@ -23,38 +32,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initDAO()
 
+        val storeInterface = ApplicationClass.retrofit.create(StoreService::class.java)
+
         binding.Btn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                loadStore()
-                setStoreTV(getStoreInfo()!!)
+                val response = storeInterface.selectStore("1")
+                if (response.isSuccessful) {
+                    DB.Store = StoreDTO(
+                        response.body()?.id ?: 0,
+                        response.body()?.lat ?: 0.0,
+                        response.body()?.lng ?: 0.0,
+                        response.body()?.name ?: "",
+                        response.body()?.tel ?: ""
+                    )
+                    setStoreTV(DB.Store)
+                }
+
             }
         }
     }
 
-    private fun getStoreInfo(): StoreDTO?{
-        return storeDao.select(STORE_ID)
-    }
-
-    fun initDAO(){
+    fun initDAO() {
         storeDao.open()
     }
 
-    private suspend fun loadStore(){
-        for( i in 1 .. 100) {
-            binding.progressBar.setProgress(i)
-            binding.progressNumber.text = i.toString()
-            delay(10)
-        }
-    }
-
-    private fun setStoreTV(storeDTO: StoreDTO){
+    private fun setStoreTV(storeDTO: StoreDTO) {
         Log.d(TAG, "setStoreTV: $storeDTO")
 
         binding.nameTV.text = storeDTO.name
-        binding.phoneTV.text = storeDTO.phone
-        binding.xTV.text = storeDTO.x.toString()
-        binding.yTV.text = storeDTO.y.toString()
+        binding.phoneTV.text = storeDTO.tel
+        binding.xTV.text = storeDTO.lat.toString()
+        binding.yTV.text = storeDTO.lng.toString()
         binding.progressStatus.text = "불러오기 완료"
+
+        binding.nameTV.setOnClickListener{
+            val intent = Intent(this,StoreReviewActivity::class.java)
+            this.startActivity(intent)
+        }
     }
 
 
