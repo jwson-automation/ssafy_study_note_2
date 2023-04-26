@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ssafy.ws_android_network_01_2.ApplicationClass
 import com.ssafy.ws_android_network_01_2.dao.DB
-import com.ssafy.ws_android_network_01_2.databinding.ActivityStoreReviewBinding
+import com.ssafy.ws_android_network_01_2.databinding.ActivityStoreMenuBinding
 import com.ssafy.ws_android_network_01_2.databinding.ReviewListBinding
+import com.ssafy.ws_android_network_01_2.dto.StoreMenuDTO
 import com.ssafy.ws_android_network_01_2.dto.StoreReviewDTO
 import com.ssafy.ws_android_network_01_2.service.StoreService
 import kotlinx.coroutines.CoroutineScope
@@ -23,11 +24,11 @@ import kotlinx.coroutines.launch
 private const val TAG = "StoreReviewActivity"
 
 class StoreReviewActivity : AppCompatActivity() {
-    lateinit var binding: ActivityStoreReviewBinding
+    lateinit var binding: ActivityStoreMenuBinding
     lateinit var storeInterface:StoreService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityStoreReviewBinding.inflate(layoutInflater)
+        binding = ActivityStoreMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         storeInterface = ApplicationClass.retrofit.create(StoreService::class.java)
@@ -35,8 +36,10 @@ class StoreReviewActivity : AppCompatActivity() {
         loadStoreReviews()
 
         binding.button.setOnClickListener {
-            startActivity(Intent(this, StoreReviewEditActivity::class.java))
+            startActivity(Intent(this, StoreMenuEditActivity::class.java))
         }
+
+        Log.d(TAG, "onCreate: ${DB.StoreMenus.toString()}")
 
 
     }
@@ -48,10 +51,10 @@ class StoreReviewActivity : AppCompatActivity() {
 
     private fun loadStoreReviews(){
         CoroutineScope(Dispatchers.Main).launch {
-            val response = storeInterface.selectStoreReviews("1")
+            val response = storeInterface.selectStoreMenus("1")
             if (response.isSuccessful) {
-                DB.StoreReviews = response.body()!!
-                binding.rcv.adapter = rcvAdapter(this@StoreReviewActivity, DB.StoreReviews)
+                DB.StoreMenus = response.body()!!
+                binding.rcv.adapter = rcvAdapter(this@StoreReviewActivity, DB.StoreMenus)
                 binding.rcv.layoutManager = LinearLayoutManager(this@StoreReviewActivity,
                     LinearLayoutManager.VERTICAL,false)
             }
@@ -61,7 +64,7 @@ class StoreReviewActivity : AppCompatActivity() {
 
 
 
-class rcvAdapter(val context: Context, val reviews: MutableList<StoreReviewDTO>) :
+class rcvAdapter(val context: Context, val reviews: MutableList<StoreMenuDTO>) :
     RecyclerView.Adapter<rcvAdapter.StoreReviewHolder>() {
 
     inner class StoreReviewHolder(binding: ReviewListBinding) : ViewHolder(binding.root) {
@@ -77,13 +80,13 @@ class rcvAdapter(val context: Context, val reviews: MutableList<StoreReviewDTO>)
     }
 
     override fun onBindViewHolder(holder: StoreReviewHolder, position: Int) {
-        holder.review.text = reviews[position].content
-        holder.rate.text = "${reviews[position].score.toString()}점"
+        holder.review.text = reviews[position].name
+        holder.rate.text = "${reviews[position].price.toString()}원"
         holder.itemView.setOnClickListener() {
-            var intent = Intent(context, StoreReviewEditActivity::class.java)
+            var intent = Intent(context, StoreMenuEditActivity::class.java)
 
             intent.apply {
-                Log.d(TAG, "onBindViewHolder: 확인확인${reviews[position].content}")
+                Log.d(TAG, "onBindViewHolder: 확인확인${reviews[position].name}")
                 putExtra("position",position)
             }
 
