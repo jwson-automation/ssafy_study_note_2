@@ -18,23 +18,35 @@ import com.ssafy.ws_android_network_01_2.dto.StoreReviewDTO
 import com.ssafy.ws_android_network_01_2.service.StoreService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
-import kotlin.coroutines.CoroutineContext
 
 private const val TAG = "StoreReviewActivity"
 
 class StoreReviewActivity : AppCompatActivity() {
     lateinit var binding: ActivityStoreReviewBinding
+    lateinit var storeInterface:StoreService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStoreReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val storeInterface = ApplicationClass.retrofit.create(StoreService::class.java)
+        storeInterface = ApplicationClass.retrofit.create(StoreService::class.java)
+
+        loadStoreReviews()
+
+        binding.button.setOnClickListener {
+            startActivity(Intent(this, StoreReviewEditActivity::class.java))
+        }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadStoreReviews()
+    }
+
+    private fun loadStoreReviews(){
         CoroutineScope(Dispatchers.Main).launch {
             val response = storeInterface.selectStoreReviews("1")
             if (response.isSuccessful) {
@@ -44,12 +56,6 @@ class StoreReviewActivity : AppCompatActivity() {
                     LinearLayoutManager.VERTICAL,false)
             }
         }
-
-        binding.button.setOnClickListener {
-            startActivity(Intent(this, StoreReviewEditActivity::class.java))
-        }
-
-
     }
 }
 
@@ -78,10 +84,7 @@ class rcvAdapter(val context: Context, val reviews: MutableList<StoreReviewDTO>)
 
             intent.apply {
                 Log.d(TAG, "onBindViewHolder: 확인확인${reviews[position].content}")
-                putExtra("content", reviews[position].content)
-                putExtra("id", reviews[position].id)
-                putExtra("score", reviews[position].score)
-                putExtra("storeUid", reviews[position].storeUid)
+                putExtra("position",position)
             }
 
             context.startActivity(intent)

@@ -16,7 +16,6 @@ import com.ssafy.ws_android_network_01_2.storeReview.StoreReviewActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.create
 
 private const val TAG = "MainActivity_싸피"
 

@@ -1,7 +1,7 @@
 package com.ssafy.ws_android_network_01_2.service
 
+import android.telecom.Call
 import com.ssafy.ws_android_network_01_2.dto.StoreReviewDTO
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
