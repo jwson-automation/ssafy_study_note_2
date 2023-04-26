@@ -47,7 +47,7 @@ class StoreReviewActivity : AppCompatActivity() {
     }
 
     private fun loadStoreReviews(){
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val response = storeInterface.selectStoreReviews("1")
             if (response.isSuccessful) {
                 DB.StoreReviews = response.body()!!
@@ -72,7 +72,7 @@ class rcvAdapter(val context: Context, val reviews: MutableList<StoreReviewDTO>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreReviewHolder {
         val binding: ReviewListBinding =
-            ReviewListBinding.inflate(LayoutInflater.from(parent.context))
+            ReviewListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoreReviewHolder(binding)
     }
 
