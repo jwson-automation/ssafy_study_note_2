@@ -106,7 +106,6 @@ fun MyApp() {
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .fillMaxSize()
-                                    .height(40.dp)
                                     .weight(1f)
                                     .border(
                                         width = 2.dp,
