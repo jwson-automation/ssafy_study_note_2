@@ -166,7 +166,9 @@ fun MyApp() {
 
                     }
 
-                    Row() {
+                    Row(
+                        modifier = Modifier.padding(12.dp)
+                    ) {
                         Text(
                             text = "How to Play : ",
                             fontSize = 24.sp,
